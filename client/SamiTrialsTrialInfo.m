@@ -4,15 +4,11 @@
 @implementation SamiTrialsTrialInfo
 
 -(id)_description: (NSString*) _description
-    endDate: (NSNumber*) endDate
     name: (NSString*) name
-    startDate: (NSNumber*) startDate
     
 {
     __description = _description;
-    _endDate = endDate;
     _name = name;
-    _startDate = startDate;
     
 
     return self;
@@ -24,11 +20,7 @@
     if(self) {
         __description = dict[@"description"];
         
-        _endDate = dict[@"endDate"];
-        
         _name = dict[@"name"];
-        
-        _startDate = dict[@"startDate"];
         
         
     }
@@ -43,15 +35,7 @@
         
     
     
-            if(_endDate != nil) dict[@"endDate"] = _endDate ;
-        
-    
-    
             if(_name != nil) dict[@"name"] = _name ;
-        
-    
-    
-            if(_startDate != nil) dict[@"startDate"] = _startDate ;
         
     
 
