@@ -3,7 +3,7 @@
 #import "SamiTrialsDeviceTypesEnvelope.h"
 #import "SamiTrialsTrialDeviceTypeRel.h"
 #import "SamiTrialsDeviceTypeInfo.h"
-#import "SamiTrialsTrialUserDeviceRel.h"
+#import "SamiTrialsTrialUserDeviceRelEnvelope.h"
 #import "SamiTrialsDeviceInfo.h"
 #import "SWGObject.h"
 
@@ -17,9 +17,9 @@
 +(NSString*) getBasePath;
 /**
 
- 
- 
  Get Trial Connected Devices
+ 
+ Get Connected Devices for a Trial
  
 
  
@@ -42,9 +42,9 @@
 
 /**
 
- 
- 
  Get Trial Device Types
+ 
+ Find DeviceType for Trial
  
 
  
@@ -67,21 +67,21 @@
 
 /**
 
- 
- 
  Add Trial Device Type
+ 
+ Add a DeviceType to Trial
  
 
  
  @param trialId Trial ID
  
- @param  DeviceType ID that needs to be added to the Trial
+ @param deviceTypeInfo DeviceType ID that needs to be added to the Trial
  
 
  return type: SamiTrialsTrialDeviceTypeRel*
  */
 -(NSNumber*) addTrialDeviceTypeWithCompletionBlock :(NSString*) trialId 
-     :(SamiTrialsDeviceTypeInfo*)  
+     deviceTypeInfo:(SamiTrialsDeviceTypeInfo*) deviceTypeInfo 
     
     completionHandler: (void (^)(SamiTrialsTrialDeviceTypeRel* output, NSError* error))completionBlock;
     
@@ -89,9 +89,9 @@
 
 /**
 
- 
- 
  Get User Connected Devices
+ 
+ Get Connected Devices of a User for a Trial
  
 
  
@@ -117,9 +117,9 @@
 
 /**
 
- 
- 
  Connect User Device
+ 
+ Add a User Device to a Trial
  
 
  
@@ -127,24 +127,24 @@
  
  @param userId User ID
  
- @param  ID of the Device that needs to be added
+ @param deviceInfo ID of the Device that needs to be added
  
 
- return type: SamiTrialsTrialUserDeviceRel*
+ return type: SamiTrialsTrialUserDeviceRelEnvelope*
  */
 -(NSNumber*) connectTrialDeviceWithCompletionBlock :(NSString*) trialId 
      userId:(NSString*) userId 
-     :(SamiTrialsDeviceInfo*)  
+     deviceInfo:(SamiTrialsDeviceInfo*) deviceInfo 
     
-    completionHandler: (void (^)(SamiTrialsTrialUserDeviceRel* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(SamiTrialsTrialUserDeviceRelEnvelope* output, NSError* error))completionBlock;
     
 
 
 /**
 
- 
- 
  Disconnect User Device
+ 
+ Remove a User Device from a Trial
  
 
  
@@ -155,13 +155,13 @@
  @param deviceId Device ID
  
 
- return type: SamiTrialsTrialUserDeviceRel*
+ return type: SamiTrialsTrialUserDeviceRelEnvelope*
  */
 -(NSNumber*) disconnectTrialDeviceWithCompletionBlock :(NSString*) trialId 
      userId:(NSString*) userId 
      deviceId:(NSString*) deviceId 
     
-    completionHandler: (void (^)(SamiTrialsTrialUserDeviceRel* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(SamiTrialsTrialUserDeviceRelEnvelope* output, NSError* error))completionBlock;
     
 
 

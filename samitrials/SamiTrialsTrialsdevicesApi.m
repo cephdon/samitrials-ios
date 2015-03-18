@@ -1,20 +1,23 @@
-#import "SamiTrialsTrialsApi.h"
+#import "SamiTrialsTrialsdevicesApi.h"
 #import "SWGFile.h"
 #import "SWGApiClient.h"
-#import "SamiTrialsTrialInfo.h"
-#import "SamiTrialsTrial.h"
-#import "SamiTrialsTrialUpdateInfo.h"
+#import "SamiTrialsConnectedDevicesEnvelope.h"
+#import "SamiTrialsDeviceTypesEnvelope.h"
+#import "SamiTrialsTrialDeviceTypeRel.h"
+#import "SamiTrialsDeviceTypeInfo.h"
+#import "SamiTrialsTrialUserDeviceRelEnvelope.h"
+#import "SamiTrialsDeviceInfo.h"
 
 
 
-@implementation SamiTrialsTrialsApi
+@implementation SamiTrialsTrialsdevicesApi
 static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 
-+(SamiTrialsTrialsApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-    static SamiTrialsTrialsApi* singletonAPI = nil;
++(SamiTrialsTrialsdevicesApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
+    static SamiTrialsTrialsdevicesApi* singletonAPI = nil;
 
     if (singletonAPI == nil) {
-        singletonAPI = [[SamiTrialsTrialsApi alloc] init];
+        singletonAPI = [[SamiTrialsTrialsdevicesApi alloc] init];
         [singletonAPI addHeader:headerValue forKey:key];
     }
     return singletonAPI;
@@ -52,17 +55,165 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 }
 
 
--(NSNumber*) createTrialWithCompletionBlock: (SamiTrialsTrialInfo*) 
+-(NSNumber*) getConnectedDevicesWithCompletionBlock: (NSString*) trialId
+         count: (NSNumber*) count
+         offset: (NSNumber*) offset
         
-        completionHandler: (void (^)(SamiTrialsTrial* output, NSError* error))completionBlock
+        completionHandler: (void (^)(SamiTrialsConnectedDevicesEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/devices", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"trialId", @"}"]] withString: [SWGApiClient escape:trialId]];
+    
+
+    NSString* requestContentType = @"application/json";
+    NSString* responseContentType = @"application/json";
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    if(count != nil)
+        queryParams[@"count"] = count;
+    if(offset != nil)
+        queryParams[@"offset"] = offset;
+    
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    
+
+    id bodyDictionary = nil;
+    
+    
+    bodyDictionary = [[NSMutableArray alloc] init];
+
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+
+    
+    [bodyDictionary addObject:formParams];
+    
+
+    
+
+    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
+
+    
+    
+    
+        
+    // comples response type
+    return [client dictionary: requestUrl 
+                       method: @"GET" 
+                  queryParams: queryParams 
+                         body: bodyDictionary 
+                 headerParams: headerParams
+           requestContentType: requestContentType
+          responseContentType: responseContentType
+              completionBlock: ^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    completionBlock(nil, error);
+                    
+                    return;
+                }
+                
+                SamiTrialsConnectedDevicesEnvelope *result = nil;
+                if (data) {
+                    result = [[SamiTrialsConnectedDevicesEnvelope    alloc]initWithValues: data];
+                }
+                completionBlock(result , nil);
+                
+              }];
+    
+    
+}
+
+-(NSNumber*) getTrialDeviceTypesWithCompletionBlock: (NSString*) trialId
+         count: (NSNumber*) count
+         offset: (NSNumber*) offset
+        
+        completionHandler: (void (^)(SamiTrialsDeviceTypesEnvelope* output, NSError* error))completionBlock
+         {
+
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/devicetypes", basePath];
+
+    // remove format in URL if needed
+    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
+        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
+
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"trialId", @"}"]] withString: [SWGApiClient escape:trialId]];
+    
+
+    NSString* requestContentType = @"application/json";
+    NSString* responseContentType = @"application/json";
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    if(count != nil)
+        queryParams[@"count"] = count;
+    if(offset != nil)
+        queryParams[@"offset"] = offset;
+    
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    
+
+    id bodyDictionary = nil;
+    
+    
+    bodyDictionary = [[NSMutableArray alloc] init];
+
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+
+    
+    [bodyDictionary addObject:formParams];
+    
+
+    
+
+    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
+
+    
+    
+    
+        
+    // comples response type
+    return [client dictionary: requestUrl 
+                       method: @"GET" 
+                  queryParams: queryParams 
+                         body: bodyDictionary 
+                 headerParams: headerParams
+           requestContentType: requestContentType
+          responseContentType: responseContentType
+              completionBlock: ^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    completionBlock(nil, error);
+                    
+                    return;
+                }
+                
+                SamiTrialsDeviceTypesEnvelope *result = nil;
+                if (data) {
+                    result = [[SamiTrialsDeviceTypesEnvelope    alloc]initWithValues: data];
+                }
+                completionBlock(result , nil);
+                
+              }];
+    
+    
+}
+
+-(NSNumber*) addTrialDeviceTypeWithCompletionBlock: (NSString*) trialId
+         deviceTypeInfo: (SamiTrialsDeviceTypeInfo*) deviceTypeInfo
+        
+        completionHandler: (void (^)(SamiTrialsTrialDeviceTypeRel* output, NSError* error))completionBlock
+         {
+
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/devicetypes", basePath];
+
+    // remove format in URL if needed
+    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
+        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
+
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"trialId", @"}"]] withString: [SWGApiClient escape:trialId]];
     
 
     NSString* requestContentType = @"application/json";
@@ -75,7 +226,7 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 
     id bodyDictionary = nil;
     
-    id __body = ;
+    id __body = deviceTypeInfo;
 
     if(__body != nil && [__body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
@@ -128,9 +279,9 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
                     return;
                 }
                 
-                SamiTrialsTrial *result = nil;
+                SamiTrialsTrialDeviceTypeRel *result = nil;
                 if (data) {
-                    result = [[SamiTrialsTrial    alloc]initWithValues: data];
+                    result = [[SamiTrialsTrialDeviceTypeRel    alloc]initWithValues: data];
                 }
                 completionBlock(result , nil);
                 
@@ -139,24 +290,32 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
     
 }
 
--(NSNumber*) getTrialWithCompletionBlock: (NSString*) trialId
+-(NSNumber*) getUserConnectedDevicesWithCompletionBlock: (NSString*) trialId
+         userId: (NSString*) userId
+         count: (NSNumber*) count
+         offset: (NSNumber*) offset
         
-        completionHandler: (void (^)(SamiTrialsTrial* output, NSError* error))completionBlock
+        completionHandler: (void (^)(SamiTrialsConnectedDevicesEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/participants/{userId}/devices", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"trialId", @"}"]] withString: [SWGApiClient escape:trialId]];
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"userId", @"}"]] withString: [SWGApiClient escape:userId]];
     
 
     NSString* requestContentType = @"application/json";
     NSString* responseContentType = @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    if(count != nil)
+        queryParams[@"count"] = count;
+    if(offset != nil)
+        queryParams[@"offset"] = offset;
     
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     
@@ -195,9 +354,9 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
                     return;
                 }
                 
-                SamiTrialsTrial *result = nil;
+                SamiTrialsConnectedDevicesEnvelope *result = nil;
                 if (data) {
-                    result = [[SamiTrialsTrial    alloc]initWithValues: data];
+                    result = [[SamiTrialsConnectedDevicesEnvelope    alloc]initWithValues: data];
                 }
                 completionBlock(result , nil);
                 
@@ -206,19 +365,21 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
     
 }
 
--(NSNumber*) updateTrialWithCompletionBlock: (NSString*) trialId
-         : (SamiTrialsTrialUpdateInfo*) 
+-(NSNumber*) connectTrialDeviceWithCompletionBlock: (NSString*) trialId
+         userId: (NSString*) userId
+         deviceInfo: (SamiTrialsDeviceInfo*) deviceInfo
         
-        completionHandler: (void (^)(SamiTrialsTrial* output, NSError* error))completionBlock
+        completionHandler: (void (^)(SamiTrialsTrialUserDeviceRelEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/participants/{userId}/devices", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"trialId", @"}"]] withString: [SWGApiClient escape:trialId]];
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"userId", @"}"]] withString: [SWGApiClient escape:userId]];
     
 
     NSString* requestContentType = @"application/json";
@@ -231,7 +392,7 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 
     id bodyDictionary = nil;
     
-    id __body = ;
+    id __body = deviceInfo;
 
     if(__body != nil && [__body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
@@ -271,7 +432,7 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
         
     // comples response type
     return [client dictionary: requestUrl 
-                       method: @"PUT" 
+                       method: @"POST" 
                   queryParams: queryParams 
                          body: bodyDictionary 
                  headerParams: headerParams
@@ -284,9 +445,9 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
                     return;
                 }
                 
-                SamiTrialsTrial *result = nil;
+                SamiTrialsTrialUserDeviceRelEnvelope *result = nil;
                 if (data) {
-                    result = [[SamiTrialsTrial    alloc]initWithValues: data];
+                    result = [[SamiTrialsTrialUserDeviceRelEnvelope    alloc]initWithValues: data];
                 }
                 completionBlock(result , nil);
                 
@@ -295,18 +456,22 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
     
 }
 
--(NSNumber*) deleteTrialWithCompletionBlock: (NSString*) trialId
+-(NSNumber*) disconnectTrialDeviceWithCompletionBlock: (NSString*) trialId
+         userId: (NSString*) userId
+         deviceId: (NSString*) deviceId
         
-        completionHandler: (void (^)(SamiTrialsTrial* output, NSError* error))completionBlock
+        completionHandler: (void (^)(SamiTrialsTrialUserDeviceRelEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/participants/{userId}/devices/{deviceId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"trialId", @"}"]] withString: [SWGApiClient escape:trialId]];
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"userId", @"}"]] withString: [SWGApiClient escape:userId]];
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"deviceId", @"}"]] withString: [SWGApiClient escape:deviceId]];
     
 
     NSString* requestContentType = @"application/json";
@@ -351,9 +516,9 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
                     return;
                 }
                 
-                SamiTrialsTrial *result = nil;
+                SamiTrialsTrialUserDeviceRelEnvelope *result = nil;
                 if (data) {
-                    result = [[SamiTrialsTrial    alloc]initWithValues: data];
+                    result = [[SamiTrialsTrialUserDeviceRelEnvelope    alloc]initWithValues: data];
                 }
                 completionBlock(result , nil);
                 

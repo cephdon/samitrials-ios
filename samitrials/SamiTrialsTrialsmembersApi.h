@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "SamiTrialsTrialAdministratorsEnvelope.h"
-#import "SamiTrialsTrialParticipantRel.h"
+#import "SamiTrialsTrialParticipantRelEnvelope.h"
 #import "SamiTrialsTrialInvitationsEnvelope.h"
-#import "SamiTrialsTrialInvitation.h"
+#import "SamiTrialsTrialInvitationEnvelope.h"
 #import "SamiTrialsTrialInvitationInfo.h"
 #import "SamiTrialsTrialInvitationStatusInfo.h"
 #import "SamiTrialsTrialParticipantsEnvelope.h"
@@ -18,9 +18,9 @@
 +(NSString*) getBasePath;
 /**
 
- 
- 
  Get Trial Administrators
+ 
+ Get Administrators for a Trial
  
 
  
@@ -43,9 +43,9 @@
 
 /**
 
- 
- 
  Delete Trial Administrator
+ 
+ Delete administrator from Trial
  
 
  
@@ -54,20 +54,20 @@
  @param userId User ID
  
 
- return type: SamiTrialsTrialParticipantRel*
+ return type: SamiTrialsTrialParticipantRelEnvelope*
  */
 -(NSNumber*) deleteTrialAdministratorWithCompletionBlock :(NSString*) trialId 
      userId:(NSString*) userId 
     
-    completionHandler: (void (^)(SamiTrialsTrialParticipantRel* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(SamiTrialsTrialParticipantRelEnvelope* output, NSError* error))completionBlock;
     
 
 
 /**
 
- 
- 
  Find Trial Invitations
+ 
+ Returns invitations for a Trial that match a status
  
 
  
@@ -93,31 +93,31 @@
 
 /**
 
- 
- 
  Create Trial Invitation
+ 
+ Create a new Trial Invitation
  
 
  
  @param trialId The trial ID
  
- @param  Trial Invitation that needs to be added
+ @param invitationInfo Trial Invitation that needs to be added
  
 
- return type: SamiTrialsTrialInvitation*
+ return type: SamiTrialsTrialInvitationEnvelope*
  */
 -(NSNumber*) createTrialInvitationWithCompletionBlock :(NSString*) trialId 
-     :(SamiTrialsTrialInvitationInfo*)  
+     invitationInfo:(SamiTrialsTrialInvitationInfo*) invitationInfo 
     
-    completionHandler: (void (^)(SamiTrialsTrialInvitation* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(SamiTrialsTrialInvitationEnvelope* output, NSError* error))completionBlock;
     
 
 
 /**
 
- 
- 
  Update Trial Invitation
+ 
+ Update an existing Trial Invitation
  
 
  
@@ -125,24 +125,24 @@
  
  @param invitationId The Invitation ID
  
- @param  New status of the Trial Invitation
+ @param invitationInfo New status of the Trial Invitation
  
 
- return type: SamiTrialsTrialInvitation*
+ return type: SamiTrialsTrialInvitationEnvelope*
  */
 -(NSNumber*) updateTrialInvitationWithCompletionBlock :(NSString*) trialId 
      invitationId:(NSString*) invitationId 
-     :(SamiTrialsTrialInvitationStatusInfo*)  
+     invitationInfo:(SamiTrialsTrialInvitationStatusInfo*) invitationInfo 
     
-    completionHandler: (void (^)(SamiTrialsTrialInvitation* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(SamiTrialsTrialInvitationEnvelope* output, NSError* error))completionBlock;
     
 
 
 /**
 
- 
- 
  Delete Trial Invitation
+ 
+ Deletes an existing trial invitation
  
 
  
@@ -151,20 +151,20 @@
  @param invitationId The trial ID
  
 
- return type: SamiTrialsTrialInvitation*
+ return type: SamiTrialsTrialInvitationEnvelope*
  */
 -(NSNumber*) deleteTrialInvitationWithCompletionBlock :(NSString*) trialId 
      invitationId:(NSString*) invitationId 
     
-    completionHandler: (void (^)(SamiTrialsTrialInvitation* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(SamiTrialsTrialInvitationEnvelope* output, NSError* error))completionBlock;
     
 
 
 /**
 
- 
- 
  Get Trial Participants
+ 
+ Find Participants for Trial
  
 
  
@@ -187,9 +187,9 @@
 
 /**
 
- 
- 
  Delete Trial Participant
+ 
+ Delete participant from Trial
  
 
  
@@ -198,12 +198,12 @@
  @param userId User ID
  
 
- return type: SamiTrialsTrialParticipantRel*
+ return type: SamiTrialsTrialParticipantRelEnvelope*
  */
 -(NSNumber*) deleteTrialParticipantWithCompletionBlock :(NSString*) trialId 
      userId:(NSString*) userId 
     
-    completionHandler: (void (^)(SamiTrialsTrialParticipantRel* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(SamiTrialsTrialParticipantRelEnvelope* output, NSError* error))completionBlock;
     
 
 

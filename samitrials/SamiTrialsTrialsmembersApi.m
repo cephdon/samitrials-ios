@@ -2,9 +2,9 @@
 #import "SWGFile.h"
 #import "SWGApiClient.h"
 #import "SamiTrialsTrialAdministratorsEnvelope.h"
-#import "SamiTrialsTrialParticipantRel.h"
+#import "SamiTrialsTrialParticipantRelEnvelope.h"
 #import "SamiTrialsTrialInvitationsEnvelope.h"
-#import "SamiTrialsTrialInvitation.h"
+#import "SamiTrialsTrialInvitationEnvelope.h"
 #import "SamiTrialsTrialInvitationInfo.h"
 #import "SamiTrialsTrialInvitationStatusInfo.h"
 #import "SamiTrialsTrialParticipantsEnvelope.h"
@@ -63,7 +63,7 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
         completionHandler: (void (^)(SamiTrialsTrialAdministratorsEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}/administrators", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/administrators", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -132,10 +132,10 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 -(NSNumber*) deleteTrialAdministratorWithCompletionBlock: (NSString*) trialId
          userId: (NSString*) userId
         
-        completionHandler: (void (^)(SamiTrialsTrialParticipantRel* output, NSError* error))completionBlock
+        completionHandler: (void (^)(SamiTrialsTrialParticipantRelEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}/administrators/{userId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/administrators/{userId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -187,9 +187,9 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
                     return;
                 }
                 
-                SamiTrialsTrialParticipantRel *result = nil;
+                SamiTrialsTrialParticipantRelEnvelope *result = nil;
                 if (data) {
-                    result = [[SamiTrialsTrialParticipantRel    alloc]initWithValues: data];
+                    result = [[SamiTrialsTrialParticipantRelEnvelope    alloc]initWithValues: data];
                 }
                 completionBlock(result , nil);
                 
@@ -206,20 +206,19 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
         completionHandler: (void (^)(SamiTrialsTrialInvitationsEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}/invitations", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/invitations", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"trialId", @"}"]] withString: [SWGApiClient escape:trialId]];
     
 
     NSString* requestContentType = @"application/json";
     NSString* responseContentType = @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    if(trialId != nil)
-        queryParams[@"trialId"] = trialId;
     if(status != nil)
         queryParams[@"status"] = status;
     if(count != nil)
@@ -276,12 +275,12 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 }
 
 -(NSNumber*) createTrialInvitationWithCompletionBlock: (NSString*) trialId
-         : (SamiTrialsTrialInvitationInfo*) 
+         invitationInfo: (SamiTrialsTrialInvitationInfo*) invitationInfo
         
-        completionHandler: (void (^)(SamiTrialsTrialInvitation* output, NSError* error))completionBlock
+        completionHandler: (void (^)(SamiTrialsTrialInvitationEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}/invitations", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/invitations", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -300,7 +299,7 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 
     id bodyDictionary = nil;
     
-    id __body = ;
+    id __body = invitationInfo;
 
     if(__body != nil && [__body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
@@ -353,9 +352,9 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
                     return;
                 }
                 
-                SamiTrialsTrialInvitation *result = nil;
+                SamiTrialsTrialInvitationEnvelope *result = nil;
                 if (data) {
-                    result = [[SamiTrialsTrialInvitation    alloc]initWithValues: data];
+                    result = [[SamiTrialsTrialInvitationEnvelope    alloc]initWithValues: data];
                 }
                 completionBlock(result , nil);
                 
@@ -366,12 +365,12 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 
 -(NSNumber*) updateTrialInvitationWithCompletionBlock: (NSString*) trialId
          invitationId: (NSString*) invitationId
-         : (SamiTrialsTrialInvitationStatusInfo*) 
+         invitationInfo: (SamiTrialsTrialInvitationStatusInfo*) invitationInfo
         
-        completionHandler: (void (^)(SamiTrialsTrialInvitation* output, NSError* error))completionBlock
+        completionHandler: (void (^)(SamiTrialsTrialInvitationEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}/invitations/{invitationId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/invitations/{invitationId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -391,7 +390,7 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 
     id bodyDictionary = nil;
     
-    id __body = ;
+    id __body = invitationInfo;
 
     if(__body != nil && [__body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
@@ -444,9 +443,9 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
                     return;
                 }
                 
-                SamiTrialsTrialInvitation *result = nil;
+                SamiTrialsTrialInvitationEnvelope *result = nil;
                 if (data) {
-                    result = [[SamiTrialsTrialInvitation    alloc]initWithValues: data];
+                    result = [[SamiTrialsTrialInvitationEnvelope    alloc]initWithValues: data];
                 }
                 completionBlock(result , nil);
                 
@@ -458,10 +457,10 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 -(NSNumber*) deleteTrialInvitationWithCompletionBlock: (NSString*) trialId
          invitationId: (NSString*) invitationId
         
-        completionHandler: (void (^)(SamiTrialsTrialInvitation* output, NSError* error))completionBlock
+        completionHandler: (void (^)(SamiTrialsTrialInvitationEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}/invitations/{invitationId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/invitations/{invitationId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -513,9 +512,9 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
                     return;
                 }
                 
-                SamiTrialsTrialInvitation *result = nil;
+                SamiTrialsTrialInvitationEnvelope *result = nil;
                 if (data) {
-                    result = [[SamiTrialsTrialInvitation    alloc]initWithValues: data];
+                    result = [[SamiTrialsTrialInvitationEnvelope    alloc]initWithValues: data];
                 }
                 completionBlock(result , nil);
                 
@@ -531,7 +530,7 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
         completionHandler: (void (^)(SamiTrialsTrialParticipantsEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}/participants", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/participants", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -600,10 +599,10 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
 -(NSNumber*) deleteTrialParticipantWithCompletionBlock: (NSString*) trialId
          userId: (NSString*) userId
         
-        completionHandler: (void (^)(SamiTrialsTrialParticipantRel* output, NSError* error))completionBlock
+        completionHandler: (void (^)(SamiTrialsTrialParticipantRelEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/trials/{trialId}/participants/{userId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/trials/{trialId}/participants/{userId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -655,9 +654,9 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
                     return;
                 }
                 
-                SamiTrialsTrialParticipantRel *result = nil;
+                SamiTrialsTrialParticipantRelEnvelope *result = nil;
                 if (data) {
-                    result = [[SamiTrialsTrialParticipantRel    alloc]initWithValues: data];
+                    result = [[SamiTrialsTrialParticipantRelEnvelope    alloc]initWithValues: data];
                 }
                 completionBlock(result , nil);
                 

@@ -58,7 +58,7 @@ static NSString * basePath = @"https://api.samsungsami.io/v1.1";
         completionHandler: (void (^)(SamiTrialsTrialsEnvelope* output, NSError* error))completionBlock
          {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/api/users/{userId}/trials", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/users/{userId}/trials", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
